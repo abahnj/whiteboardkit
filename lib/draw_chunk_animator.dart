@@ -7,14 +7,14 @@ import 'whiteboard_draw.dart';
 typedef void FirstChunkAdded(WhiteboardDraw draw);
 
 class DrawChunkAnimator extends DrawAnimator {
-  List<DrawChunk> _serializedChunks;
-  List<DrawChunk> _bufferChunks;
+  late List<DrawChunk> _serializedChunks;
+  late List<DrawChunk> _bufferChunks;
 
   bool sizeSet = false;
-  Size availbleSize;
+  Size? availbleSize;
 
   DrawChunkAnimator(
-      {@required DrawChanged onChange, @required DrawCompleted onComplete})
+      {required DrawChanged onChange, required DrawCompleted onComplete})
       : super(
           width: 0,
           height: 0,
@@ -29,7 +29,7 @@ class DrawChunkAnimator extends DrawAnimator {
     if (drawChunk.id == 0) {
       _serializedChunks.clear();
       this.finalDraw = WhiteboardDraw.empty(
-          width: drawChunk.draw.width, height: drawChunk.draw.height).getScaled(availbleSize.width,  availbleSize.height);
+          width: drawChunk.draw.width, height: drawChunk.draw.height).getScaled(availbleSize!.width,  availbleSize!.height);
       await pause();
     }
 
@@ -59,7 +59,7 @@ class DrawChunkAnimator extends DrawAnimator {
     var drawPartial =
         drawChunk.draw.getScaled(finalDraw.width, finalDraw.height);
     var queuedMilliseconds = queued.fold(
-        0, (previousValue, queuedLine) => previousValue + queuedLine.duration);
+        0, (dynamic previousValue, queuedLine) => previousValue + queuedLine.duration);
     if (queuedMilliseconds > 4000)
       queued.forEach((queuedLine) {
         queuedLine.duration = 0;
