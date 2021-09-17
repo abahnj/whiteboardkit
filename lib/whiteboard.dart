@@ -199,7 +199,7 @@ class SuperPainter extends CustomPainter {
     else
       size = new Size(0, 0);
 
-    if (draw != null && draw!.lines != null) {
+    if (draw != null) {
       var lastWipeIndex = draw!.lines.lastIndexWhere((l) => l.wipe!);
       visibleLines =
           lastWipeIndex > -1 ? draw!.lines.sublist(lastWipeIndex) : draw!.lines;
@@ -230,10 +230,8 @@ class SuperPainter extends CustomPainter {
 
   drawLine(Canvas canvas, Paint paint, Line line) {
     for (int i = 0; i < line.points.length - 1; i++) {
-      if (line.points[i] != null && line.points[i + 1] != null) {
-        canvas.drawLine(
-            line.points[i].toOffset(), line.points[i + 1].toOffset(), paint);
-      }
+      canvas.drawLine(
+          line.points[i].toOffset(), line.points[i + 1].toOffset(), paint);
     }
   }
 

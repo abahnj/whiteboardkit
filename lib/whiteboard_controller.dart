@@ -42,8 +42,8 @@ abstract class WhiteboardController {
   }
 
   close() {
-    streamController?.close();
-    sizeChangedController?.close();
+    streamController.close();
+    sizeChangedController.close();
   }
 
   onPanUpdate(Offset position) {}

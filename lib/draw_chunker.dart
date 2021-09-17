@@ -17,7 +17,7 @@ class DrawChunker {
   DrawChunk? next() {
     var draw = this.draw.copyWith();
 
-    if (draw == null || draw.lines.length == 0) return null;
+    if (draw.lines.length == 0) return null;
 
     var chunkDraw = draw.copyWith(lines: []);
 
@@ -56,7 +56,7 @@ class DrawChunker {
     if (wipeIndex > -1) {
       chunkDraw.lines = chunkDraw.lines.skip(wipeIndex + 1).toList();
       lastChunk = null;
-      if(chunkDraw.lines.length == 0) return null;
+      if (chunkDraw.lines.length == 0) return null;
     }
 
     _lastLineIndex = draw.lines.length - 1;
@@ -74,9 +74,8 @@ class DrawChunker {
     }
 
     return lastChunk = DrawChunk(
-      id: lastChunk == null ? 0 : lastChunk!.id + 1,
-      draw: chunkDraw,
-      createdAt: DateTime.now()
-    );
+        id: lastChunk == null ? 0 : lastChunk!.id + 1,
+        draw: chunkDraw,
+        createdAt: DateTime.now());
   }
 }

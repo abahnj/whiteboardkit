@@ -117,11 +117,6 @@ class DrawAnimator {
 
     _skip = false;
 
-    if (finalDraw == null) {
-      _playId = null;
-      return;
-    }
-
     Future(() async {
       if (_playId != playIdLocal) return;
       while (queued.isNotEmpty) {

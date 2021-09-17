@@ -31,7 +31,7 @@ class SketchStreamController extends WhiteboardController {
 
   @override
   close() {
-    completeController?.close();
+    completeController.close();
     animator?.close();
     super.close();
   }

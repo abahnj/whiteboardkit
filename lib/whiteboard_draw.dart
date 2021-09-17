@@ -60,10 +60,9 @@ class WhiteboardDraw {
   Duration get drawingDuration {
     var duration = new Duration();
 
-    if (lines != null)
-      lines.forEach((line) {
-        duration += Duration(milliseconds: line.duration!);
-      });
+    lines.forEach((line) {
+      duration += Duration(milliseconds: line.duration!);
+    });
     return duration;
   }
 
@@ -235,7 +234,7 @@ class WhiteboardDraw {
   }
 
   factory WhiteboardDraw.fromWhiteboardSVG(String svg) {
-    final document = xml.parse(svg);
+    final document = xml.XmlDocument.parse(svg);
     // print("document.toXmlString()");
     // print(document.toXmlString());
 
@@ -329,7 +328,7 @@ class WhiteboardDraw {
   }
 }
 
-@JsonSerializable(nullable: false, explicitToJson: true)
+@JsonSerializable(explicitToJson: true)
 class Line {
 //  @JsonKey(fromJson: _offsetsFromList, toJson: _offsetsToList)
 //  List<Offset> points;

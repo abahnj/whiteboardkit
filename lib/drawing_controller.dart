@@ -3,10 +3,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:whiteboardkit/whiteboardkit.dart';
+
 import 'draw_chunker.dart';
 import 'toolbox_options.dart';
-import 'whiteboard_draw.dart';
 import 'whiteboard_controller.dart';
+import 'whiteboard_draw.dart';
 
 class DrawingController extends WhiteboardController {
   bool _newLine = true;
@@ -38,7 +39,7 @@ class DrawingController extends WhiteboardController {
 
   @override
   close() {
-    _chunkController?.close();
+    _chunkController.close();
     return super.close();
   }
 
@@ -59,7 +60,8 @@ class DrawingController extends WhiteboardController {
           lastPan != null &&
           DateTime.now().difference(lastPan!).inMilliseconds <
               _chunker!.durationInMilliseconds &&
-          (this.draw!.lines.length == 0 || this.draw!.lines.last.wipe != true)) {
+          (this.draw!.lines.length == 0 ||
+              this.draw!.lines.last.wipe != true)) {
         this.draw!.lines.add(new Line(
               points: [],
               color: Colors.white,
@@ -88,7 +90,7 @@ class DrawingController extends WhiteboardController {
     }
 
     if (this.draw!.lines.last.points.length == 0 ||
-        position != this.draw!.lines.last.points?.last.toOffset()) {
+        position != this.draw!.lines.last.points.last.toOffset()) {
       this.draw!.lines.last.points = new List.from(this.draw!.lines.last.points)
         ..add(Point.fromOffset(position));
       this.draw!.lines.last.duration =
@@ -103,12 +105,14 @@ class DrawingController extends WhiteboardController {
     this.draw!.lines.last.duration =
         DateTime.now().difference(firstPointTime).inMilliseconds;
 
-    if (this.draw!.lines.length > 0 && this.draw!.lines.last.points.length == 1) {
+    if (this.draw!.lines.length > 0 &&
+        this.draw!.lines.last.points.length == 1) {
       var secondPoint = new Offset(this.draw!.lines.last.points.last.x! + 1,
           this.draw!.lines.last.points.last.y! + 1);
       this.draw!.lines.last.points.add(Point.fromOffset(secondPoint));
     }
-    if (this.draw!.lines.length > 0 && this.draw!.lines.last.points.length == 0) {
+    if (this.draw!.lines.length > 0 &&
+        this.draw!.lines.last.points.length == 0) {
       this.draw!.lines.removeLast();
     }
     streamController.sink.add(this.draw!.copyWith());
