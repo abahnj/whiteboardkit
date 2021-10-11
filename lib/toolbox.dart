@@ -31,7 +31,7 @@ class _ToolBoxState extends State<ToolBox> {
 
   ToolBoxSelected? selected;
 
-  final brushSizes = <double>[10, 20, 30, 40];
+  final brushSizes = <double>[5, 10, 15, 20];
   final brushColors = <Color>[
     Colors.black,
     Colors.blue,
@@ -43,7 +43,7 @@ class _ToolBoxState extends State<ToolBox> {
 
   @override
   void initState() {
-    brushSize = 20.0;
+    brushSize = 5.0;
     brushColor = Colors.blue;
     erase = false;
     eraserSize = 20.0;

@@ -90,86 +90,80 @@ class WhiteboardState extends State<Whiteboard> {
 
       // print("toolboxOffset:${toolboxOffset}");
 
-      return WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: Column(
-          children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: toolboxOffset),
+      return Column(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(bottom: toolboxOffset),
+                width: boardSize.width,
+                height: boardSize.height,
+                alignment: FractionalOffset.center,
+                decoration: BoxDecoration(
+                  border: widget.style.border,
+                ),
+                child: GestureDetector(
+                  onPanUpdate: (DragUpdateDetails details) {
+                    if (widget.controller!.readonly) return;
+
+                    RenderBox object = context.findRenderObject() as RenderBox;
+                    Offset _localPosition =
+                        object.globalToLocal(details.globalPosition);
+                    widget.controller!.onPanUpdate(_localPosition);
+                    setState(() {});
+                  },
+                  onPanEnd: (DragEndDetails details) {
+                    if (widget.controller!.readonly) return;
+
+                    widget.controller!.onPanEnd();
+                    setState(() {});
+                  },
+                  child: StreamBuilder<WhiteboardDraw?>(
+                      stream: widget.controller!.onChange(),
+                      builder: (context, snapshot) {
+                        var draw = snapshot.data;
+
+                        return CustomPaint(
+                          key: UniqueKey(),
+                          foregroundPainter: new SuperPainter(draw),
+                          size: Size.infinite,
+                          child: Container(
+                            color: Colors.white,
+                          ),
+                        );
+                      }),
+                ),
+              ),
+              if (showToolBox)
+                Positioned(
+                  bottom: 0.0,
                   width: boardSize.width,
-                  height: boardSize.height,
-                  alignment: FractionalOffset.center,
-                  decoration: BoxDecoration(
-                    border: widget.style.border,
-                  ),
-                  child: GestureDetector(
-                    onPanUpdate: (DragUpdateDetails details) {
-                      if (widget.controller!.readonly) return;
-
-                      RenderBox object =
-                          context.findRenderObject() as RenderBox;
-                      Offset _localPosition =
-                          object.globalToLocal(details.globalPosition);
-                      widget.controller!.onPanUpdate(_localPosition);
-                      setState(() {});
-                    },
-                    onPanEnd: (DragEndDetails details) {
-                      if (widget.controller!.readonly) return;
-
-                      widget.controller!.onPanEnd();
-                      setState(() {});
-                    },
-                    child: StreamBuilder<WhiteboardDraw?>(
-                        stream: widget.controller!.onChange(),
-                        builder: (context, snapshot) {
-                          var draw = snapshot.data;
-
-                          return CustomPaint(
-                            key: UniqueKey(),
-                            foregroundPainter: new SuperPainter(draw),
-                            size: Size.infinite,
-                            child: Container(
-                              color: Colors.white,
-                            ),
-                          );
-                        }),
+                  child: ToolBox(
+                    sketchController: widget.controller as DrawingController,
+                    color: widget.style.toolboxColor,
+                    options: widget.controller!.toolboxOptions,
                   ),
                 ),
-                if (showToolBox)
-                  Positioned(
-                    bottom: 0.0,
-                    width: boardSize.width,
-                    child: ToolBox(
-                      sketchController: widget.controller as DrawingController,
-                      color: widget.style.toolboxColor,
-                      options: widget.controller!.toolboxOptions,
-                    ),
-                  ),
-                if (showControls)
-                  showFastForward
-                      ? IconButton(
-                          key: ValueKey("skipAnimationButton"),
-                          icon: Icon(Icons.fast_forward),
-                          color: Colors.black26,
-                          onPressed: skipAnimationPressed,
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                        )
-                      : IconButton(
-                          icon: Icon(Icons.replay),
-                          color: Colors.black26,
-                          onPressed: restartAnimationPressed,
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                        )
-              ],
-            ),
-          ],
-        ),
+              if (showControls)
+                showFastForward
+                    ? IconButton(
+                        key: ValueKey("skipAnimationButton"),
+                        icon: Icon(Icons.fast_forward),
+                        color: Colors.black26,
+                        onPressed: skipAnimationPressed,
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                      )
+                    : IconButton(
+                        icon: Icon(Icons.replay),
+                        color: Colors.black26,
+                        onPressed: restartAnimationPressed,
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                      )
+            ],
+          ),
+        ],
       );
     });
   }
