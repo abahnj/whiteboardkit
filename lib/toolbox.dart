@@ -11,13 +11,15 @@ class ToolBox extends StatefulWidget {
   final DrawingController? sketchController;
   final Color color;
   final ToolboxOptions options;
+  final Function onSend;
 
   ToolBox(
       {
       // @required this.width,
       required this.sketchController,
       required this.color,
-      required this.options});
+      required this.options,
+      required this.onSend});
 
   @override
   _ToolBoxState createState() => _ToolBoxState();
@@ -177,6 +179,7 @@ class _ToolBoxState extends State<ToolBox> {
                             size: 24,
                           ),
                           onPress: widget.sketchController!.undo),
+                    _buildToolButton(Icon(Icons.send, size: 24), onPress: widget.onSend)
                   ],
                 ),
                 decoration: BoxDecoration(

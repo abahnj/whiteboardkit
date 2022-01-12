@@ -15,8 +15,9 @@ const HEIGHT_TO_SUBSTRACT = 80.0;
 class Whiteboard extends StatefulWidget {
   final WhiteboardController? controller;
   final WhiteboardStyle style;
+  final Function? onSend;
 
-  Whiteboard({required this.controller, this.style = const WhiteboardStyle()});
+  Whiteboard({required this.controller, this.style = const WhiteboardStyle(), this.onSend});
 
   @override
   WhiteboardState createState() => WhiteboardState();
@@ -142,6 +143,7 @@ class WhiteboardState extends State<Whiteboard> {
                     sketchController: widget.controller as DrawingController,
                     color: widget.style.toolboxColor,
                     options: widget.controller!.toolboxOptions,
+                    onSend: widget.onSend ?? (){},
                   ),
                 ),
               if (showControls)
