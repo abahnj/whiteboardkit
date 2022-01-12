@@ -179,7 +179,13 @@ class _ToolBoxState extends State<ToolBox> {
                             size: 24,
                           ),
                           onPress: widget.sketchController!.undo),
-                    _buildToolButton(Icon(Icons.send, size: 24), onPress: widget.onSend)
+                    _buildToolButton(
+                        Icon(
+                          Icons.send,
+                          size: 24,
+                          color: widget.color,
+                        ),
+                        onPress: widget.onSend)
                   ],
                 ),
                 decoration: BoxDecoration(
