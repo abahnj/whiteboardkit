@@ -185,7 +185,7 @@ class _ToolBoxState extends State<ToolBox> {
                           size: 24,
                           color: widget.color,
                         ),
-                        onPress: widget.onSend)
+                        onPress: () => {widget.onSend})
                   ],
                 ),
                 decoration: BoxDecoration(
